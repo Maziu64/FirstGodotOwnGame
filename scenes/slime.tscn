@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://ba6sh8hh14cv8"]
 
 [ext_resource type="Script" uid="uid://bj4c4agekwpfy" path="res://scripts/slime.gd" id="1_n6pvg"]
-[ext_resource type="Texture2D" uid="uid://b1nkqd4rg1qoy" path="res://assets/sprites/slime_green.png" id="1_p2gj0"]
+[ext_resource type="Texture2D" uid="uid://b1nkqd4rg1qoy" path="res://assets/tutorial/sprites/slime_green.png" id="1_p2gj0"]
 [ext_resource type="PackedScene" uid="uid://bcn2af4i6vbpl" path="res://scenes/killzone.tscn" id="2_n6pvg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pjw23"]
@@ -54,6 +54,7 @@ frame = 3
 frame_progress = 0.9802469
 
 [node name="Killzone" parent="AnimatedSprite2D" instance=ExtResource("2_n6pvg")]
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/Killzone"]
 position = Vector2(0, 5)

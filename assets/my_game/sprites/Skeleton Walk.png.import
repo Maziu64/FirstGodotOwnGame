@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c8oksckk321ob"
-path="res://.godot/imported/world_tileset.png-61a32465f33c3d9d3bfecb75b6485009.ctex"
+uid="uid://8w7w5oa807ds"
+path="res://.godot/imported/Skeleton Walk.png-8458f6dcf19a2581c1c3087826d2ead9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/world_tileset.png"
-dest_files=["res://.godot/imported/world_tileset.png-61a32465f33c3d9d3bfecb75b6485009.ctex"]
+source_file="res://assets/my_game/sprites/Skeleton Walk.png"
+dest_files=["res://.godot/imported/Skeleton Walk.png-8458f6dcf19a2581c1c3087826d2ead9.ctex"]
 
 [params]
 

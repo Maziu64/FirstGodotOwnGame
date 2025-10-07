@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://evhrmnl6rfvi"]
+
+[ext_resource type="Script" uid="uid://damvdj66ls2l5" path="res://scripts/life.gd" id="1_tf86k"]
+
+[node name="Life" type="Node2D"]
+script = ExtResource("1_tf86k")

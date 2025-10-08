@@ -29,9 +29,7 @@ func _ready():
 	life.connect("health_changed", _on_health_changed)
 	life.connect("died", _on_died)
 
-func die():
 	
-
 func attack():
 	attack_underway = true
 	
@@ -53,12 +51,14 @@ func attack():
 
 func hitted(damage: float) -> void:
 	life.take_damage(damage)
+	animated_sprite_2d.play("hitted")
 	
 func _on_health_changed(updated_life: int) -> void:
 	print("Vida actual: " + str(updated_life))
 
-func _on_died() -> void:
+func _on_died() -> void:	
 	print("Muerto")
+	animated_sprite_2d.play("die")
 	
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("Attack"):

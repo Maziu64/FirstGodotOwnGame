@@ -494,7 +494,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_au8ao"]
 size = Vector2(9, 25)
 
-[node name="PLayer" type="CharacterBody2D"]
+[node name="PLayer" type="CharacterBody2D" groups=["player"]]
 z_index = 5
 collision_layer = 2
 script = ExtResource("1_5acv1")
@@ -513,3 +513,4 @@ shape = SubResource("RectangleShape2D_au8ao")
 position = Vector2(27, -13)
 
 [node name="Life" parent="." instance=ExtResource("7_ctrey")]
+maxHP = 5

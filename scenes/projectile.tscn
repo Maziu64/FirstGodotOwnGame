@@ -1,9 +1,13 @@
-[gd_scene load_steps=28 format=3 uid="uid://cs45mcyhadlu0"]
+[gd_scene load_steps=30 format=3 uid="uid://cs45mcyhadlu0"]
 
 [ext_resource type="Script" uid="uid://cgmfuvfpabru8" path="res://scripts/projectile.gd" id="1_6q2a6"]
 [ext_resource type="Texture2D" uid="uid://cbwe3iqmtvpyc" path="res://assets/my_game/sprites/Wind Breath.png" id="1_softn"]
 [ext_resource type="Texture2D" uid="uid://dg3eweotwhgvr" path="res://assets/my_game/sprites/Wind Projectile.png" id="2_6q2a6"]
+[ext_resource type="PackedScene" uid="uid://bmgpgk06mlryw" path="res://scenes/damagezone.tscn" id="2_byeak"]
 [ext_resource type="Texture2D" uid="uid://d2ppb2s6acigo" path="res://assets/my_game/sprites/Wind Hit Effect.png" id="3_byeak"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_byeak"]
+size = Vector2(20, 26)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jxwu6"]
 atlas = ExtResource("1_softn")
@@ -89,6 +93,10 @@ region = Rect2(64, 0, 32, 32)
 atlas = ExtResource("3_byeak")
 region = Rect2(0, 32, 32, 32)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_byeak"]
+atlas = ExtResource("3_byeak")
+region = Rect2(32, 32, 32, 32)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_jxwu6"]
 animations = [{
 "frames": [{
@@ -164,27 +172,29 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_8ke5u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_byeak")
 }],
-"loop": true,
+"loop": false,
 "name": &"hit",
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_byeak"]
-size = Vector2(20, 26)
-
-[node name="CharacterBody2D" type="Area2D"]
-collision_mask = 4
+[node name="Projectile" type="Node2D" groups=["projectiles"]]
 script = ExtResource("1_6q2a6")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_jxwu6")
-animation = &"flying"
-autoplay = "cast"
-frame_progress = 0.16292647
+[node name="Damagezone" parent="." instance=ExtResource("2_byeak")]
+damage = 1
+damage_enemies = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Damagezone"]
 shape = SubResource("RectangleShape2D_byeak")
 disabled = true
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jxwu6")
+animation = &"hit"
+autoplay = "cast"
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

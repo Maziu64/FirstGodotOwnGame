@@ -1,8 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://ba6sh8hh14cv8"]
+[gd_scene load_steps=23 format=3 uid="uid://ba6sh8hh14cv8"]
 
 [ext_resource type="Script" uid="uid://bj4c4agekwpfy" path="res://scripts/slime.gd" id="1_n6pvg"]
 [ext_resource type="Texture2D" uid="uid://b1nkqd4rg1qoy" path="res://assets/tutorial/sprites/slime_green.png" id="1_p2gj0"]
-[ext_resource type="Texture2D" uid="uid://d2ppb2s6acigo" path="res://assets/my_game/sprites/Wind Hit Effect.png" id="3_2npkn"]
 [ext_resource type="PackedScene" uid="uid://bmgpgk06mlryw" path="res://scenes/damagezone.tscn" id="3_pjw23"]
 [ext_resource type="PackedScene" uid="uid://evhrmnl6rfvi" path="res://scenes/life.tscn" id="4_2npkn"]
 
@@ -17,10 +16,6 @@ region = Rect2(24, 48, 24, 24)
 [sub_resource type="AtlasTexture" id="AtlasTexture_vnioy"]
 atlas = ExtResource("1_p2gj0")
 region = Rect2(48, 48, 24, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cxm07"]
-atlas = ExtResource("3_2npkn")
-region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2xjuo"]
 atlas = ExtResource("1_p2gj0")
@@ -37,10 +32,6 @@ region = Rect2(48, 48, 24, 24)
 [sub_resource type="AtlasTexture" id="AtlasTexture_g40cl"]
 atlas = ExtResource("1_p2gj0")
 region = Rect2(72, 48, 24, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g2qvl"]
-atlas = ExtResource("3_2npkn")
-region = Rect2(32, 32, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pjw23"]
 atlas = ExtResource("1_p2gj0")
@@ -69,11 +60,8 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vnioy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cxm07")
 }],
-"loop": true,
+"loop": false,
 "name": &"die",
 "speed": 5.0
 }, {
@@ -89,11 +77,8 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_g40cl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g2qvl")
 }],
-"loop": true,
+"loop": false,
 "name": &"hitted",
 "speed": 10.0
 }, {
@@ -118,21 +103,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0l8pv"]
 size = Vector2(8, 12)
 
-[sub_resource type="Animation" id="Animation_2npkn"]
-resource_name = "hurt_shake"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.33, 0.68, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(4, 0), Vector2(-4, 0), Vector2(0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_fd6lc"]
 length = 0.001
 tracks/0/type = "value"
@@ -147,11 +117,138 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:skew")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_2npkn"]
+resource_name = "hurt_shake"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(4, 0), Vector2(-4, 0), Vector2(0, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.36666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"end_hit_animation"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_pjw23"]
+resource_name = "die_shake"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334, 0.26666668, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(4, 0), Vector2(-4, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:skew")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.11, 0.29, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.45553094, 0.4537856, 0.0]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.36666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"end_hit_animation"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_gstla"]
+resource_name = "move"
+length = 0.5
+loop_mode = 1
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gstla"]
 _data = {
 &"RESET": SubResource("Animation_fd6lc"),
-&"hurt_shake": SubResource("Animation_2npkn")
+&"die_shake": SubResource("Animation_pjw23"),
+&"hurt_shake": SubResource("Animation_2npkn"),
+&"move": SubResource("Animation_gstla")
 }
 
 [node name="Slime" type="Node2D" groups=["enemies"]]
@@ -160,7 +257,7 @@ script = ExtResource("1_n6pvg")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_v5wyi")
-animation = &"die"
+animation = &"move"
 autoplay = "move"
 
 [node name="RayCastRight" type="RayCast2D" parent="."]

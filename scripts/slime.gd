@@ -5,15 +5,18 @@ const speed = 60
 var direction = 1
 @onready var ray_cast_right: RayCast2D = $RayCastRight
 @onready var ray_cast_left: RayCast2D = $RayCastLeft
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var damagezone: Area2D = $AnimatedSprite2D/Damagezone
 @onready var life: Node2D = $Life
 @onready var collision_shape_2d: CollisionShape2D = $Damagezone/CollisionShape2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var sprite_holder: Node2D = $SpriteHolder
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 func _ready() -> void:
 	life.connect("health_changed", _on_health_changed)
 	life.connect("died", _on_died)
+	
+	debug_animation_tracks("hurt_shake")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if ray_cast_right.is_colliding():
@@ -25,29 +28,46 @@ func _process(delta: float) -> void:
 	if animated_sprite_2d.animation == "move":
 		position.x += direction * speed * delta
 	
-	if animated_sprite_2d.animation == "hitted":
-		if animated_sprite_2d.frame == 4:
-			animated_sprite_2d. play("move")
-			collision_shape_2d.disabled = false
-	if animated_sprite_2d.animation == "die":
-		if animated_sprite_2d.frame == 3:
-			queue_free()
+	#if animated_sprite_2d.animation == "hitted":
+	#	if animated_sprite_2d.frame == 4:
+	#		animated_sprite_2d. play("move")
+	#		collision_shape_2d.disabled = false
+	#if animated_sprite_2d.animation == "die":
+	#	if animated_sprite_2d.frame == 3:
+	#		queue_free()
 
 func hitted(damage: float) -> void:
+	#animated_sprite_2d.stop()
 	life.take_damage(damage)
 	if life.current_health > 0:
 		animated_sprite_2d.play("hitted")
-		#animation_player.play("hurt_shake")
+		animation_player.play("hurt_shake")
 	elif life.current_health <= 0:
 		animated_sprite_2d.play("die")
-		#animation_player.play("hurt_shake")
-		
+		animation_player.play("die_shake")
 	collision_shape_2d.disabled = true
-	
+
+func end_hit_animation() -> void:
+	if animation_player.current_animation == "hurt_shake":
+		animated_sprite_2d.play("move")
+		collision_shape_2d.disabled = false
+	elif animation_player.current_animation == "die_shake":
+		queue_free()
+
 func _on_health_changed(updated_life: int) -> void:
 	print("Vida actual: " + str(updated_life))
 
-func _on_died() -> void:	
-	print("Muerto")	
+func _on_died() -> void:
+	print("Muerto")
 	
-	
+
+func debug_animation_tracks(anim_name: String) -> void:
+	var anim = animation_player.get_animation("hurt_shake")
+	if anim == null:
+		print("No existe la animación: ", anim_name)
+	var track_count = anim.get_track_count()
+	print("Animación '", anim_name, "' tiene ", track_count, " tracks")
+	for i in range(track_count):
+		var path = anim.track_get_path(i)
+		var type = anim.track_get_type(i)
+		print(" Track ", i, ": path=", path, " type=", type)

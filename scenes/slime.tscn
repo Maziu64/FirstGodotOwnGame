@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=3 uid="uid://ba6sh8hh14cv8"]
+[gd_scene load_steps=25 format=3 uid="uid://ba6sh8hh14cv8"]
 
 [ext_resource type="Script" uid="uid://bj4c4agekwpfy" path="res://scripts/slime.gd" id="1_n6pvg"]
 [ext_resource type="Texture2D" uid="uid://b1nkqd4rg1qoy" path="res://assets/tutorial/sprites/slime_green.png" id="1_p2gj0"]
 [ext_resource type="Texture2D" uid="uid://d2ppb2s6acigo" path="res://assets/my_game/sprites/Wind Hit Effect.png" id="3_2npkn"]
 [ext_resource type="PackedScene" uid="uid://bmgpgk06mlryw" path="res://scenes/damagezone.tscn" id="3_pjw23"]
 [ext_resource type="PackedScene" uid="uid://evhrmnl6rfvi" path="res://scenes/life.tscn" id="4_2npkn"]
+[ext_resource type="AudioStream" uid="uid://ck2n4wgnes7ol" path="res://assets/my_game/sounds/hitted.wav" id="6_fd6lc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v5wyi"]
 atlas = ExtResource("1_p2gj0")
@@ -187,3 +188,8 @@ maxHP = 2
 libraries = {
 &"": SubResource("AnimationLibrary_gstla")
 }
+
+[node name="DieSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_fd6lc")
+volume_db = 24.0
+bus = &"SFX"

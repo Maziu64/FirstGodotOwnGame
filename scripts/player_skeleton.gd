@@ -6,6 +6,8 @@ const SPEED = 150.0
 const JUMP_VELOCITY = -300.0
 
 @onready var life: Node2D = $Life
+@onready var hitted_sound: AudioStreamPlayer2D = $HittedSound
+@onready var die_sound: AudioStreamPlayer2D = $DieSound
 
 @onready var projectile_spawn: Marker2D = $ProjectileSpawn
 var spawn_offset: Vector2
@@ -62,12 +64,14 @@ func _on_health_changed(updated_life: int) -> void:
 	print("Vida actual: " + str(updated_life))
 
 func _on_died() -> void:
+	die_sound.play()
 	print("Muerto")
 	animated_sprite_2d.position = Vector2 (died_sprite_offset_x, died_sprite_offset_y)
 	animated_sprite_2d.play("die")
 	Engine.time_scale = 0.5
 
 func _on_hurted() -> void:
+	hitted_sound.play()
 	animated_sprite_2d.position = Vector2 (hitted_sprite_offset_x, hitted_sprite_offset_y)
 	animated_sprite_2d.play("hitted")
 

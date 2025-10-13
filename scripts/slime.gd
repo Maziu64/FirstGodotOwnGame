@@ -10,6 +10,7 @@ var direction = 1
 @onready var life: Node2D = $Life
 @onready var collision_shape_2d: CollisionShape2D = $Damagezone/CollisionShape2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
+@onready var die_sound: AudioStreamPlayer2D = $DieSound
 
 func _ready() -> void:
 	life.connect("health_changed", _on_health_changed)
@@ -31,6 +32,8 @@ func _process(delta: float) -> void:
 			animated_sprite_2d. play("move")
 			collision_shape_2d.disabled = false
 	if animated_sprite_2d.animation == "die":
+		if animated_sprite_2d.frame == 1:
+			die_sound.play()
 		if animated_sprite_2d.frame == 3:
 			queue_free()
 
@@ -41,7 +44,7 @@ func hitted(damage: float) -> void:
 func _on_health_changed(updated_life: int) -> void:
 	print("Vida actual: " + str(updated_life))
 
-func _on_died() -> void:	
+func _on_died() -> void:
 	animated_sprite_2d.play("die")
 	#animation_player.play("hurt_shake")	
 

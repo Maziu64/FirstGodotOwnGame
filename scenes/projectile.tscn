@@ -1,10 +1,12 @@
-[gd_scene load_steps=30 format=3 uid="uid://cs45mcyhadlu0"]
+[gd_scene load_steps=32 format=3 uid="uid://cs45mcyhadlu0"]
 
 [ext_resource type="Script" uid="uid://cgmfuvfpabru8" path="res://scripts/projectile.gd" id="1_6q2a6"]
 [ext_resource type="Texture2D" uid="uid://cbwe3iqmtvpyc" path="res://assets/my_game/sprites/Wind Breath.png" id="1_softn"]
 [ext_resource type="Texture2D" uid="uid://dg3eweotwhgvr" path="res://assets/my_game/sprites/Wind Projectile.png" id="2_6q2a6"]
 [ext_resource type="PackedScene" uid="uid://bmgpgk06mlryw" path="res://scenes/damagezone.tscn" id="2_byeak"]
 [ext_resource type="Texture2D" uid="uid://d2ppb2s6acigo" path="res://assets/my_game/sprites/Wind Hit Effect.png" id="3_byeak"]
+[ext_resource type="AudioStream" uid="uid://b4675iq64sc81" path="res://assets/my_game/sounds/Wind_Slash.wav" id="6_w7nm8"]
+[ext_resource type="AudioStream" uid="uid://4wyaeyp8wefy" path="res://assets/my_game/sounds/Wind_Slash_Hit.wav" id="7_6c2e5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_byeak"]
 size = Vector2(20, 26)
@@ -196,5 +198,13 @@ disabled = true
 sprite_frames = SubResource("SpriteFrames_jxwu6")
 animation = &"hit"
 autoplay = "cast"
+
+[node name="CastSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_w7nm8")
+bus = &"SFX"
+
+[node name="HitSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_6c2e5")
+bus = &"SFX"
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

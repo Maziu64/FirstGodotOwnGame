@@ -4,6 +4,8 @@ extends Node2D
 @export var SPEED = 100
 @onready var collision_shape_2d: CollisionShape2D = $Damagezone/CollisionShape2D
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var cast_sound: AudioStreamPlayer2D = $CastSound
+@onready var hit_sound: AudioStreamPlayer2D = $HitSound
 
 var dir : Vector2 = Vector2.RIGHT
 
@@ -12,6 +14,8 @@ func _process(delta: float) -> void:
 	
 	if animated_sprite_2d.animation == "cast":
 		match animated_sprite_2d.frame:
+			1:
+				cast_sound.play()
 			10:
 				projectile.scale = Vector2 (0.5, 0.5)
 				animated_sprite_2d.play("flying")
@@ -26,6 +30,7 @@ func _process(delta: float) -> void:
 			#pass
 
 func hitted() -> void:
+	hit_sound.play()
 	collision_shape_2d.disabled = true
 	animated_sprite_2d.play("hit")
 	

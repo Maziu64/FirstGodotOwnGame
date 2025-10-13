@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=3 uid="uid://cvtki31v0k606"]
+[gd_scene load_steps=78 format=3 uid="uid://cvtki31v0k606"]
 
 [ext_resource type="Script" uid="uid://mnh5qo8uexb1" path="res://scripts/player_skeleton.gd" id="1_5acv1"]
 [ext_resource type="Texture2D" uid="uid://dicgkgyejw1fs" path="res://assets/my_game/sprites/Skeleton Attack.png" id="2_3wsw5"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://evhrmnl6rfvi" path="res://scenes/life.tscn" id="7_ctrey"]
 [ext_resource type="AudioStream" uid="uid://ck2n4wgnes7ol" path="res://assets/my_game/sounds/hitted.wav" id="8_6rsjt"]
 [ext_resource type="AudioStream" uid="uid://bhj5c8ylcsmiv" path="res://assets/my_game/sounds/die.mp3" id="9_uk6t0"]
+[ext_resource type="FontFile" uid="uid://cdwyvbfq6ptbq" path="res://assets/tutorial/fonts/PixelOperator8.ttf" id="10_uk6t0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ni07"]
 atlas = ExtResource("2_3wsw5")
@@ -524,3 +525,13 @@ bus = &"SFX"
 [node name="DieSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_uk6t0")
 bus = &"SFX"
+
+[node name="LblScore" type="Label" parent="."]
+offset_left = -28.000004
+offset_top = -46.0
+offset_right = 89.0
+offset_bottom = -23.0
+scale = Vector2(0.8920159, 0.9040591)
+theme_override_fonts/font = ExtResource("10_uk6t0")
+theme_override_font_sizes/font_size = 8
+text = "Coins: 0"

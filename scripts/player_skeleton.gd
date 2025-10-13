@@ -8,6 +8,8 @@ const JUMP_VELOCITY = -300.0
 @onready var life: Node2D = $Life
 @onready var hitted_sound: AudioStreamPlayer2D = $HittedSound
 @onready var die_sound: AudioStreamPlayer2D = $DieSound
+var points = 0
+@onready var lbl_score: Label = $LblScore
 
 @onready var projectile_spawn: Marker2D = $ProjectileSpawn
 var spawn_offset: Vector2
@@ -35,7 +37,12 @@ func _ready():
 	life.connect("health_changed", _on_health_changed)
 	life.connect("died", _on_died)
 	life.connect("hurted", _on_hurted)
+	
+	points = 0
 
+func add_point(amount: int) -> void:
+	points += amount
+	lbl_score.text = "Coins: " + str(points)
 	
 func attack():
 	attack_underway = true

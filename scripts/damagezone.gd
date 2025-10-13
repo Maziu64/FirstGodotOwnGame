@@ -11,8 +11,8 @@ func _on_body_entered(body: Node2D) -> void:
 	#body.get_node("CollisionShape2D").queue_free()
 	#timer.start()
 	if damage_player:
-		if "player" in body.get_parent().get_groups():
-			body.get_parent().hitted(damage)
+		if "player" in body.get_groups():
+			body.hitted(damage)
 			#Baja la veocidad a la que corre el engine, para dar un efecto de muerte
 			Engine.time_scale = 0.5 
 			timer.start()

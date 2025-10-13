@@ -12,6 +12,10 @@ var spawn_offset: Vector2
 var animated_sprite_offset: Vector2
 var attack_sprite_offset_x: float
 var attack_sprite_offset_y: float
+var hitted_sprite_offset_x: float
+var hitted_sprite_offset_y: float
+var died_sprite_offset_x: float
+var died_sprite_offset_y: float
 
 @onready var projectile = load("res://scenes/projectile.tscn")
 
@@ -28,6 +32,7 @@ func _ready():
 	
 	life.connect("health_changed", _on_health_changed)
 	life.connect("died", _on_died)
+	life.connect("hurted", _on_hurted)
 
 	
 func attack():
@@ -50,16 +55,22 @@ func attack():
 	
 
 func hitted(damage: float) -> void:
+	action_blocked = true
 	life.take_damage(damage)
-	animated_sprite_2d.play("hitted")
-	
+
 func _on_health_changed(updated_life: int) -> void:
 	print("Vida actual: " + str(updated_life))
 
-func _on_died() -> void:	
+func _on_died() -> void:
 	print("Muerto")
+	animated_sprite_2d.position = Vector2 (died_sprite_offset_x, died_sprite_offset_y)
 	animated_sprite_2d.play("die")
-	
+	Engine.time_scale = 0.5
+
+func _on_hurted() -> void:
+	animated_sprite_2d.position = Vector2 (hitted_sprite_offset_x, hitted_sprite_offset_y)
+	animated_sprite_2d.play("hitted")
+
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("Attack"):
 		
@@ -76,6 +87,19 @@ func _process(delta: float) -> void:
 				action_blocked = false
 				attack_underway = false
 				animated_sprite_2d.position = animated_sprite_offset
+
+	if animated_sprite_2d.animation == "hitted":
+		match animated_sprite_2d.frame:
+			7:
+				action_blocked = false
+				animated_sprite_2d.position = animated_sprite_offset
+	
+	if animated_sprite_2d.animation == "die":
+		match animated_sprite_2d.frame:
+			14:
+				animated_sprite_2d.position = animated_sprite_offset
+				Engine.time_scale = 1
+				get_tree().reload_current_scene()
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -97,12 +121,24 @@ func _physics_process(delta: float) -> void:
 			
 			attack_sprite_offset_x = 10
 			attack_sprite_offset_y = -19
+			
+			hitted_sprite_offset_x = 0
+			hitted_sprite_offset_y = -16
+			
+			died_sprite_offset_x = -3.3
+			died_sprite_offset_y = -16
 		elif direction < 0:
 			animated_sprite_2d.flip_h = true
 			collision_shape_2d.position = Vector2(6, collision_shape_2d.position.y)
 			
 			attack_sprite_offset_x = -5
 			attack_sprite_offset_y = -19
+			
+			hitted_sprite_offset_x = 5
+			hitted_sprite_offset_y = -16
+			
+			died_sprite_offset_x = 0.7
+			died_sprite_offset_y = -16
 			
 		
 		#Play animations
@@ -111,8 +147,8 @@ func _physics_process(delta: float) -> void:
 				animated_sprite_2d.play("idle")
 			else:
 				animated_sprite_2d.play("run")
-		else:
-			animated_sprite_2d.play("jumping")
+		#else:
+			#animated_sprite_2d.play("jumping")
 		
 		
 		

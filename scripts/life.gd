@@ -5,6 +5,7 @@ var current_health: int
 
 signal health_changed(new_value)
 signal died
+signal hurted
 
 
 func _ready() -> void:
@@ -16,3 +17,5 @@ func take_damage(amount: int) -> void:
 	
 	if current_health <= 0:
 		emit_signal("died")
+	elif current_health > 0:
+		emit_signal("hurted")

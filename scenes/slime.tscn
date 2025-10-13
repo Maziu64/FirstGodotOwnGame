@@ -118,21 +118,6 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0l8pv"]
 size = Vector2(8, 12)
 
-[sub_resource type="Animation" id="Animation_2npkn"]
-resource_name = "hurt_shake"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.33, 0.68, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(4, 0), Vector2(-4, 0), Vector2(0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_fd6lc"]
 length = 0.001
 tracks/0/type = "value"
@@ -146,6 +131,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_2npkn"]
+resource_name = "hurt_shake"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.33, 0.68, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(4, 0), Vector2(-4, 0), Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gstla"]
@@ -172,6 +172,7 @@ position = Vector2(0, -7)
 target_position = Vector2(-11, 0)
 
 [node name="Damagezone" parent="." instance=ExtResource("3_pjw23")]
+collision_mask = 3
 damage = 1
 damage_player = true
 

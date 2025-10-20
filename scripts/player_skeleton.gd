@@ -62,7 +62,7 @@ func attack():
 		cast_meele.position = Vector2(-cast_melee_offset.x, cast_melee_offset.y)
 	else:
 		cast_meele.flip_h = false
-		cast_meele.position = cast_melee_offset
+		cast_meele.position = Vector2(3 + cast_melee_offset.x, cast_melee_offset.y)
 		
 	cast_meele.visible = true
 	cast_meele.play("cast_melee")

@@ -627,7 +627,7 @@ theme_override_font_sizes/font_size = 8
 text = "Coins: 0"
 
 [node name="CastMeele" type="AnimatedSprite2D" parent="." groups=["melee"]]
-position = Vector2(27, -13)
+position = Vector2(33, -13)
 sprite_frames = SubResource("SpriteFrames_teqly")
 animation = &"cast_melee"
 frame = 10

@@ -27,6 +27,8 @@ func _on_area_entered(area: Area2D) -> void:
 			area.get_parent().hitted(damage)
 			if "projectiles" in get_parent().get_groups():
 				get_parent().hitted()
+			if "melee" in get_parent().get_groups():
+				get_parent().enemy_hitted()
 			Engine.time_scale = 0.5
 			#await get_tree().create_timer(TIMEOUT).timeout
 			timer.start()

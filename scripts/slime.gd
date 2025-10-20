@@ -46,6 +46,7 @@ func _on_health_changed(updated_life: int) -> void:
 
 func _on_died() -> void:
 	animated_sprite_2d.play("die")
+	collision_shape_2d.disabled = true
 	#animation_player.play("hurt_shake")	
 
 func _on_hurted() -> void:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://cvtki31v0k606"]
+[gd_scene load_steps=93 format=3 uid="uid://cvtki31v0k606"]
 
 [ext_resource type="Script" uid="uid://mnh5qo8uexb1" path="res://scripts/player_skeleton.gd" id="1_5acv1"]
 [ext_resource type="Texture2D" uid="uid://dicgkgyejw1fs" path="res://assets/my_game/sprites/Skeleton Attack.png" id="2_3wsw5"]
@@ -10,6 +10,8 @@
 [ext_resource type="AudioStream" uid="uid://ck2n4wgnes7ol" path="res://assets/my_game/sounds/hitted.wav" id="8_6rsjt"]
 [ext_resource type="AudioStream" uid="uid://bhj5c8ylcsmiv" path="res://assets/my_game/sounds/die.mp3" id="9_uk6t0"]
 [ext_resource type="FontFile" uid="uid://cdwyvbfq6ptbq" path="res://assets/tutorial/fonts/PixelOperator8.ttf" id="10_uk6t0"]
+[ext_resource type="Texture2D" uid="uid://cbwe3iqmtvpyc" path="res://assets/my_game/sprites/Wind Breath.png" id="11_1kj4b"]
+[ext_resource type="PackedScene" uid="uid://bmgpgk06mlryw" path="res://scenes/damagezone.tscn" id="12_mb6m8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4ni07"]
 atlas = ExtResource("2_3wsw5")
@@ -497,6 +499,94 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_au8ao"]
 size = Vector2(9, 25)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_mb6m8"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(0, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukcbf"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(48, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwymw"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(96, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rep6i"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(144, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f8310"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(192, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a375m"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(240, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c8i4g"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(288, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fvuq"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(336, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vaomr"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(384, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bk5sm"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(432, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffoec"]
+atlas = ExtResource("11_1kj4b")
+region = Rect2(480, 0, 48, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_teqly"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mb6m8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukcbf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwymw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rep6i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f8310")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a375m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c8i4g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fvuq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vaomr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bk5sm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffoec")
+}],
+"loop": false,
+"name": &"cast_melee",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_odt0w"]
+size = Vector2(45, 20)
+
 [node name="PLayer" type="CharacterBody2D" groups=["player"]]
 z_index = 5
 collision_layer = 2
@@ -535,3 +625,19 @@ scale = Vector2(0.8920159, 0.9040591)
 theme_override_fonts/font = ExtResource("10_uk6t0")
 theme_override_font_sizes/font_size = 8
 text = "Coins: 0"
+
+[node name="CastMeele" type="AnimatedSprite2D" parent="." groups=["melee"]]
+position = Vector2(27, -13)
+sprite_frames = SubResource("SpriteFrames_teqly")
+animation = &"cast_melee"
+frame = 10
+frame_progress = 1.0
+
+[node name="Damagezone" parent="CastMeele" instance=ExtResource("12_mb6m8")]
+
+[node name="CastMelee_Collision" type="CollisionShape2D" parent="CastMeele/Damagezone"]
+position = Vector2(-0.5, 2)
+shape = SubResource("RectangleShape2D_odt0w")
+disabled = true
+
+[connection signal="animation_finished" from="CastMeele" to="." method="_on_cast_meele_animation_finished"]

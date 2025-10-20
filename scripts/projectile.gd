@@ -9,17 +9,10 @@ extends Node2D
 
 var dir : Vector2 = Vector2.RIGHT
 
+func _ready() -> void:
+	projectile.scale = Vector2 (0.5, 0.5)
 
 func _process(delta: float) -> void:
-	
-	if animated_sprite_2d.animation == "cast":
-		match animated_sprite_2d.frame:
-			1:
-				cast_sound.play()
-			10:
-				projectile.scale = Vector2 (0.5, 0.5)
-				animated_sprite_2d.play("flying")
-				collision_shape_2d.disabled = false
 	
 	if animated_sprite_2d.animation == "flying":
 		position += dir * SPEED * delta

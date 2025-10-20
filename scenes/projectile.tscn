@@ -192,12 +192,11 @@ damage_enemies = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Damagezone"]
 shape = SubResource("RectangleShape2D_byeak")
-disabled = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_jxwu6")
-animation = &"hit"
-autoplay = "cast"
+animation = &"flying"
+autoplay = "flying"
 
 [node name="CastSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_w7nm8")

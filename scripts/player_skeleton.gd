@@ -27,20 +27,28 @@ var previous_direction: float = 0.0
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var cast_meele: AnimatedSprite2D = $CastMeele
+@onready var cast_melee_collision: CollisionShape2D = $CastMeele/Damagezone/CastMelee_Collision
+var cast_melee_offset: Vector2
 
 var action_blocked: bool = false
 var attack_underway: bool = false
+var cast_projectile: bool = true
+var projectile_spawned: bool = false
 
 func _ready():
 	# Guardamos la posición inicial del Marker2D (por ejemplo, +20 en X)
 	spawn_offset = projectile_spawn.position
 	animated_sprite_offset = animated_sprite_2d.position
+	cast_melee_offset = cast_meele.position
 	
 	life.connect("health_changed", _on_health_changed)
 	life.connect("died", _on_died)
 	life.connect("hurted", _on_hurted)
 	
 	points = 0
+	
+	cast_meele.visible = false
 
 func add_point(amount: int) -> void:
 	points += amount
@@ -49,20 +57,43 @@ func add_point(amount: int) -> void:
 func attack():
 	attack_underway = true
 	
-	var inst_projectile = projectile.instantiate()
-	get_parent().add_child(inst_projectile)
-	
 	if animated_sprite_2d.flip_h:
-		inst_projectile.dir = Vector2.LEFT
-		projectile_spawn.position = Vector2(-spawn_offset.x, spawn_offset.y)
-		inst_projectile.global_position = projectile_spawn.global_position
-		inst_projectile.scale.y = inst_projectile.scale.y * -1 # Invertir sprite del proyectil si hace falta
+		cast_meele.flip_h = true
+		cast_meele.position = Vector2(-cast_melee_offset.x, cast_melee_offset.y)
 	else:
-		inst_projectile.dir = Vector2.RIGHT
-		projectile_spawn.position = spawn_offset
-		inst_projectile.global_position = projectile_spawn.global_position
+		cast_meele.flip_h = false
+		cast_meele.position = cast_melee_offset
+		
+	cast_meele.visible = true
+	cast_meele.play("cast_melee")
+	cast_meele.frame = 0
 	
-	inst_projectile.rotation = inst_projectile.dir.angle()
+#func enemy_hitted():
+	#cast_projectile = false
+
+func _on_cast_meele_animation_finished() -> void:
+	cast_meele.visible = false
+	projectile_spawned = false
+	#cast_projectile = true
+
+func spawn_projectile(spawn_projectile: bool = true) -> void:
+	projectile_spawned = true
+	
+	if spawn_projectile:
+		var inst_projectile = projectile.instantiate()
+		get_parent().add_child(inst_projectile)
+		
+		if animated_sprite_2d.flip_h:
+			inst_projectile.dir = Vector2.LEFT
+			projectile_spawn.position = Vector2(-spawn_offset.x, spawn_offset.y)
+			inst_projectile.global_position = projectile_spawn.global_position
+			inst_projectile.scale.y = inst_projectile.scale.y * -1 # Invertir sprite del proyectil si hace falta
+		else:
+			inst_projectile.dir = Vector2.RIGHT
+			projectile_spawn.position = spawn_offset
+			inst_projectile.global_position = projectile_spawn.global_position
+		
+		inst_projectile.rotation = inst_projectile.dir.angle()
 	
 
 func hitted(damage: float) -> void:
@@ -143,6 +174,18 @@ func _process(delta: float) -> void:
 				animated_sprite_2d.position = animated_sprite_offset
 				Engine.time_scale = 1
 				get_tree().reload_current_scene()
+				
+	if cast_meele.animation == "cast_melee":
+		match cast_meele.frame:
+			3:
+				cast_melee_collision.disabled = false
+				cast_meele.modulate = "ff0000"
+			7:
+				cast_melee_collision.disabled = true
+				cast_meele.modulate = "ffffff"
+			8:
+				if !projectile_spawned:
+					spawn_projectile()
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.

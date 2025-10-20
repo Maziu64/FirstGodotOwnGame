@@ -21,6 +21,8 @@ var hitted_sprite_offset_y: float
 var died_sprite_offset_x: float
 var died_sprite_offset_y: float
 
+var previous_direction: float = 0.0
+
 @onready var projectile = load("res://scenes/projectile.tscn")
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
@@ -81,6 +83,36 @@ func _on_hurted() -> void:
 	hitted_sound.play()
 	animated_sprite_2d.position = Vector2 (hitted_sprite_offset_x, hitted_sprite_offset_y)
 	animated_sprite_2d.play("hitted")
+	
+func _on_direction_changed(old: float, new: float) -> void:
+	if new == 0:
+		print("El jugador dejó de moverse.")
+	elif new > 0:
+		print("El jugador se giró a la derecha.")
+		animated_sprite_2d.flip_h = false
+		collision_shape_2d.position = Vector2(-1.5, -12.5)
+		
+		attack_sprite_offset_x = 10
+		attack_sprite_offset_y = -19
+		
+		hitted_sprite_offset_x = 0
+		hitted_sprite_offset_y = -16
+		
+		died_sprite_offset_x = -3.3
+		died_sprite_offset_y = -16
+	elif new < 0:
+		print("El jugador se giró a la izquierda.")
+		animated_sprite_2d.flip_h = true
+		collision_shape_2d.position = Vector2(8, -12.5)
+		
+		attack_sprite_offset_x = -5
+		attack_sprite_offset_y = -19
+		
+		hitted_sprite_offset_x = 5
+		hitted_sprite_offset_y = -16
+		
+		died_sprite_offset_x = 0.7
+		died_sprite_offset_y = -16
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("Attack"):
@@ -124,33 +156,10 @@ func _physics_process(delta: float) -> void:
 
 		#Get the input directio: -1, 0, 1
 		var direction := Input.get_axis("move_left", "move_right")
+		if direction != previous_direction:
+			_on_direction_changed(previous_direction, direction)
+			previous_direction = direction
 		
-		#Flip the sprite
-		if direction > 0:
-			animated_sprite_2d.flip_h = false
-			collision_shape_2d.position = Vector2(-1.5, collision_shape_2d.position.y)
-			
-			attack_sprite_offset_x = 10
-			attack_sprite_offset_y = -19
-			
-			hitted_sprite_offset_x = 0
-			hitted_sprite_offset_y = -16
-			
-			died_sprite_offset_x = -3.3
-			died_sprite_offset_y = -16
-		elif direction < 0:
-			animated_sprite_2d.flip_h = true
-			collision_shape_2d.position = Vector2(6, collision_shape_2d.position.y)
-			
-			attack_sprite_offset_x = -5
-			attack_sprite_offset_y = -19
-			
-			hitted_sprite_offset_x = 5
-			hitted_sprite_offset_y = -16
-			
-			died_sprite_offset_x = 0.7
-			died_sprite_offset_y = -16
-			
 		
 		#Play animations
 		if is_on_floor():

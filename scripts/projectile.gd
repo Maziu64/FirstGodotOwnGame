@@ -33,7 +33,6 @@ func hitted() -> void:
 	hit_sound.play()
 	collision_shape_2d.disabled = true
 	animated_sprite_2d.play("hit")
-	
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
